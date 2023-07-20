@@ -1,0 +1,11 @@
+node_modules
+# Keep environment variables out of version control
+.env
+auth/index.ts
+/auth
+/auth/index.ts
+auth/index
+/auth/index
+auth
+
+cigar-data-w-images.json

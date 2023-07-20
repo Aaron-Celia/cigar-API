@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Cigars {
+  id Int @default(autoincrement()) @id
+  name String @unique
+  image_src String
+  country String
+  wrapper_type String
+  description String
+  strength Strengths
+  shapes Shapes[]
+  options Options[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Shapes {
+  id Int @default(autoincrement()) @id
+  shape_name String
+  dimensions String
+  cigar_id Int 
+  cigar Cigars @relation(fields: [cigar_id], references: [id])
+  options Options[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Options {
+  id Int @default(autoincrement()) @id
+  package_option String
+  price Float
+  shape_id Int
+  shape Shapes @relation(fields: [shape_id], references: [id])
+  cigar_id Int
+  cigar Cigars @relation(fields: [cigar_id], references: [id])
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+enum Strengths {
+  MILD
+  MILD_MEDIUM
+  MEDIUM
+  MEDIUM_FULL
+  FULL
+}
